@@ -1,0 +1,18 @@
+name: Add issue label
+run-name: ${{ github.actor }} is adding label to Github issue.
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  Add-Issue-Label:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "The token ${{ secrets.MY_TOKEN }}"
+      - run: echo "The issue URL ${{ github.event.issue.html_url }}"
+      - name: Adding label
+        env:
+          GH_TOKEN: ${{ secrets.MY_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          gh issue edit $ISSUE_URL --add-label "enhancement"
