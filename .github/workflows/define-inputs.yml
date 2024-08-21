@@ -1,0 +1,42 @@
+name: Define inputs
+run-name: Define inputs for manually triggered workflow
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Log level"
+        required: true
+        default: "warning"
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+      print_tags:
+        description: "True to print to STDOUT"
+        required: true
+        type: boolean
+      tags:
+        description: "Test scenario tags"
+        required: true
+        type: string
+      environment:
+        description: "Environment to run tests against"
+        type: environment
+        required: true
+
+jobs:
+  print-tag:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.print_tags }}
+    steps:
+      - env:
+          GITHUB_EVENT_INPUT: ${{ toJSON(github.event.inputs) }}
+        run: |
+          echo $GITHUB_EVENT_INPUT
+      - env:
+          GITHUB_EVENT: ${{ toJSON(github.event) }}
+        run: |
+          echo $GITHUB_EVENT
+      - name: Print the input tag to STDOUT
+        run: echo  The tags are ${{ inputs.tags }}
