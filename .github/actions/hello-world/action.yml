@@ -1,0 +1,11 @@
+name: "Example Local Action"
+description: "This is an example local action."
+author: "DH"
+inputs:
+  name:
+    description: "Your name"
+    required: true
+    default: "Dung"
+runs:
+  using: "node20"
+  main: "main.js"
